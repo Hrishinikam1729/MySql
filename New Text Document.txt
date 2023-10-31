@@ -1,0 +1,48 @@
+DROP PROCEDURE IF EXISTS addQualification;
+delimiter $
+ CREATE PROCEDURE addQualification( id int,_id int, name varchar(20),college varchar(20),university varchar(50) ,marks int,year1 varchar(10))
+ BEGIN
+	declare  x bool;
+	select true into  x from  student s where s.ID=_id;
+    IF  x then 
+	insert into student_qualifications(id,studentid,name,college,university,marks,year) VALUES(id,_id,name,college,university,marks,year1);
+	select "Record inserted";
+	else 
+	 select "Student not found";
+	end if;
+ end $
+ delimiter ;
+
+
+
+
+
+CREATE TABLE USING PROCEDURE:
+drop procedure if exists tab;
+delimiter $
+
+create PROCEDURE tab(tname varchar(10))
+BEGIN
+set @a := concat("Drop table if exists ", tname);
+prepare b from @a;
+execute b;
+
+set @x := concat("Create table ",tname," (username varchar(20),password varchar(30),email varchar(30))");
+prepare z from @x;
+execute z;
+
+end $
+delimiter ;
+
+
+
+
+INSERT VALUE USING PROCEDURE:
+
+drop PROCEDURE if EXISTS addUser;
+delimiter $
+CREATE PROCEDURE addUser(username varchar(20),password varchar(30),email varchar(30))
+BEGIN
+	insert into LOGIN values (username, password, email);
+END $
+delimiter ;
